@@ -1,0 +1,46 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build outputs
+dist/
+build/
+.cache/
+.next/
+out/
+coverage/
+
+# Logs
+logs
+*.log
+*.log.*
+
+# macOS system files
+.DS_Store
+
+# Editor folders
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+
+# Recharts / compiled assets
+*.map
+
+# TypeScript build
+*.tsbuildinfo
+
+# If you’re using React with Vite
+vite.config.ts.timestamp*
