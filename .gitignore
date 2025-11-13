@@ -44,3 +44,11 @@ logs
 
 # If you’re using React with Vite
 vite.config.ts.timestamp*
+
+
+.venv/
+/pyserver/.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
