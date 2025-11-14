@@ -43,10 +43,12 @@ export default function App() {
 
   return (
     <div>
+      <button>DEc</button>
+      <button onClick={() => dispatch(increment())}>Increment</button>
+      <h1>{count}</h1>
       <Routes>
         <Route path="/info" element={<Info />} />
         <Route path="/about" element={<About />} />
-
         {/* Catch-all 404 */}
         <Route path="*" element={<NotFound />} />
       </Routes>
