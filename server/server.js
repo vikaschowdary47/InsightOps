@@ -3,6 +3,10 @@ import http from "http";
 import { Server } from "socket.io";
 import cors from "cors";
 import si from "systeminformation";
+import pool from "./db.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
@@ -24,4 +28,13 @@ io.on("connection", (socket) => {
   }, 3000);
 });
 
+async function test() {
+  const res = await pool.query("SELECT NOW()");
+  console.log(res.rows);
+  if (res) {
+    console.log("DB running");
+  }
+}
+
+test();
 server.listen(4000, () => console.log("Server running on port 4000"));
