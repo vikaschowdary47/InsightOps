@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
 from joblib import dump
 
-# Fake system data
+# Fake system sample data
 data = {
     "cpu": [10, 30, 50, 70, 90, 95],
     "memory": [20, 40, 60, 80, 90, 95],
