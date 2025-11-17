@@ -1,7 +1,7 @@
-import express from "express";
-import { MetricController } from "./metric.controller.js";
+import { Router } from "express";
+import { MetricController } from "./metrics.controller";
 
-const router = express.Router();
+const router = Router();
 
 router.post("/", MetricController.create);
 router.get("/:projectId", MetricController.getByProject);

@@ -5,11 +5,17 @@ import cors from "cors";
 import si from "systeminformation";
 import pool from "./db.js";
 import dotenv from "dotenv";
+import metricRoutes from "./src/modules/metrics/metrics.routes";
 
 dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
+
+app.use(express.json());
+
+app.use("/metrics", metricRoutes);
+
 const io = new Server(server, { cors: { origin: "*" } });
 
 io.on("connection", (socket) => {
