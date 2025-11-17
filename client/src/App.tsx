@@ -15,6 +15,7 @@ import { Route, Routes } from "react-router-dom";
 import About from "./pages/About";
 import Info from "./pages/Info";
 import NotFound from "./pages/NotFound";
+import Home from "./pages/Home";
 
 type Metric = {
   cpu: number;
@@ -47,6 +48,7 @@ export default function App() {
       <button onClick={() => dispatch(increment())}>Increment</button>
       <h1>{count}</h1>
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/info" element={<Info />} />
         <Route path="/about" element={<About />} />
         {/* Catch-all 404 */}

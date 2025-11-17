@@ -15,11 +15,28 @@ datasource db {
 }
 
 model User {
-  id       String  @id @unique @default(uuid())
-  email    String  @unique
+  id       String    @id @unique @default(uuid())
+  email    String    @unique
   name     String?
   password String
-  // role    Role     @default(USER)
-  // posts   Post[]
-  // profile Profile?
+  apiKeys  ApiKey[]
+  projects Project[]
+}
+
+model Project {
+  project_id  String @id @unique
+  userId      String
+  name        String
+  description String
+  user        User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+model ApiKey {
+  id        String   @id @unique @default(uuid())
+  apiKey    String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
 }

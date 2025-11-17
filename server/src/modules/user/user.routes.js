@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.post("/", MetricController.create);
 router.get("/:projectId", MetricController.getByProject);
+router.get("/generateApiKey/:projectIdx", MetricController.getByProject);
 
 export default router;
