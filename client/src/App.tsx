@@ -1,78 +1,66 @@
-import { useEffect, useState } from "react";
-import { io } from "socket.io-client";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-} from "recharts";
-import { useSelector, useDispatch } from "react-redux";
-import { increment, decrement, incrementByAmount } from "./redux/counterSlice";
-import { useAppDispatch, useAppSelector } from "./hooks";
-import { Route, Routes } from "react-router-dom";
-import About from "./pages/About";
-import Info from "./pages/Info";
-import NotFound from "./pages/NotFound";
+import { Routes, Route } from "react-router-dom";
+import { useAppSelector } from "./hooks";
+import { PrivateRoute } from "./hooks/PrivateRoute";
+import { PublicRoute } from "./hooks/PublicRoute";
+
 import Home from "./pages/Home";
-
-type Metric = {
-  cpu: number;
-  memory: number;
-  timestamp: string;
-};
-
-const socket = io("http://localhost:4000");
+import Info from "./pages/Info";
+import About from "./pages/About";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import NotFound from "./pages/NotFound";
 
 export default function App() {
-  const [data, setData] = useState<Metric[]>([]); // explicitly typed
-
-  useEffect(() => {
-    socket.on("metrics", (msg: Metric) => {
-      setData((prev) => [...prev.slice(), msg]); // now TypeScript knows msg is Metric
-    });
-
-    return () => {
-      socket.off("metrics");
-    };
-  }, []);
-
-  const count = useAppSelector((state) => state.counter.value);
-  const dispatch = useAppDispatch();
-  const [inputValue, setInputValue] = useState(0);
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
 
   return (
-    <div>
-      <button>DEc</button>
-      <button onClick={() => dispatch(increment())}>Increment</button>
-      <h1>{count}</h1>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/info" element={<Info />} />
-        <Route path="/about" element={<About />} />
-        {/* Catch-all 404 */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </div>
-    // <div style={{ padding: 40 }}>
-    //   <button>DEc</button>
-    //   <button onClick={() => dispatch(increment())}>Increment</button>
-    //   <h1>{count}</h1>
-    //   <h2>InsightOps Live Monitor</h2>
-    //   <LineChart width={700} height={300} data={data}>
-    //     <XAxis dataKey="timestamp" />
-    //     <YAxis />
-    //     <Tooltip />
-    //     <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
-    //     <Line type="monotone" dataKey="cpu" stroke="#8884d8" name="CPU (%)" />
-    //     <Line
-    //       type="monotone"
-    //       dataKey="memory"
-    //       stroke="#82ca9d"
-    //       name="Memory (%)"
-    //     />
-    //   </LineChart>
-    // </div>
+    <Routes>
+      {/* Public Routes */}
+      <Route
+        path="/login"
+        element={
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="/register"
+        element={
+          <PublicRoute>
+            <SignUp />
+          </PublicRoute>
+        }
+      />
+
+      {/* Private Routes */}
+      <Route
+        path="/"
+        element={
+          <PrivateRoute>
+            <Home />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/info"
+        element={
+          <PrivateRoute>
+            <Info />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/about"
+        element={
+          <PrivateRoute>
+            <About />
+          </PrivateRoute>
+        }
+      />
+
+      {/* Catch-all 404 */}
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 }
