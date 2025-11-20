@@ -30,13 +30,13 @@ It collects system metrics from multiple machines via a Python agent, streams th
 
 The InsightOps system has three main components:
 
-+----------------+ +-----------------+ +----------------+
-| Python Agent | ---> | Node.js Backend | ---> | PostgreSQL DB |
-| (runs on user | metrics | (API & real-time| metrics | (store metrics,|
-| servers) | data | updates, tasks) | data | users, projects|
-+----------------+ +-----------------+ +----------------+
-| |
-v v
-Metrics & Logs React Dashboard
-Streaming (Live metrics, remote
-task execution)
+```mermaid
+flowchart LR
+    A[Python Agent] --> B[Node.js Backend]
+    B --> C[PostgreSQL DB]
+    B --> D[React Dashboard]
+
+    A ---|metrics/logs| B
+    B ---|store metrics| C
+    B ---|real-time streaming| D
+```
