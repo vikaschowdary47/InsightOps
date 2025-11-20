@@ -1,10 +1,10 @@
-import { redirect } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../hooks";
 import { login } from "../redux/authSlice";
 
 const Login = () => {
   const dispatch = useAppDispatch();
-
+  const navigate = useNavigate();
   const handleLogin = () => {
     dispatch(login({ name: "Vikas", email: "vikas@test.com" }));
   };
@@ -47,7 +47,7 @@ const Login = () => {
             <span className="mt-1">OR</span>
             <button
               className="h-[30px] w-[200px] cursor-pointer rounded-3xl text-white mt-1 bg-blue-600"
-              onClick={() => redirect("/register")}
+              onClick={() => navigate("/register")}
             >
               Sign Ups
             </button>

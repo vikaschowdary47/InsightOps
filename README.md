@@ -18,15 +18,25 @@ It collects system metrics from multiple machines via a Python agent, streams th
 
 ## Tech Stack
 
-| Component       | Technology                           |
-|-----------------|-------------------------------------|
-| Frontend        | React, Recharts, Tailwind CSS       |
-| Backend         | Node.js, Express, Prisma, PostgreSQL|
-| Agent           | Python (cross-platform)             |
-| Real-time Updates | Socket.io                          |
-| ORM / DB        | Prisma + PostgreSQL                  |
-
----
+| Component         | Technology                           |
+| ----------------- | ------------------------------------ |
+| Frontend          | React, Recharts, Tailwind CSS        |
+| Backend           | Node.js, Express, Prisma, PostgreSQL |
+| Agent             | Python (cross-platform)              |
+| Real-time Updates | Socket.io                            |
+| ORM / DB          | Prisma + PostgreSQL                  |
 
 ## Architecture
 
+The InsightOps system has three main components:
+
++----------------+ +-----------------+ +----------------+
+| Python Agent | ---> | Node.js Backend | ---> | PostgreSQL DB |
+| (runs on user | metrics | (API & real-time| metrics | (store metrics,|
+| servers) | data | updates, tasks) | data | users, projects|
++----------------+ +-----------------+ +----------------+
+| |
+v v
+Metrics & Logs React Dashboard
+Streaming (Live metrics, remote
+task execution)
