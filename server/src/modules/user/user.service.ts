@@ -17,7 +17,7 @@ export const userService = {
       // Check if user exists
       const existingUser = await findUserByEmail(email);
       console.log({ existingUser });
-      return;
+      // return;
       if (existingUser) {
         return { error: "User already exists" };
       }
