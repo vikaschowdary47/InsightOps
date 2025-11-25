@@ -1,5 +1,6 @@
 import { PrismaClient } from "../../generated/prisma/client";
 import { UserLogin } from "./user.model";
+import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
@@ -21,12 +22,13 @@ export const userService = {
       if (existingUser) {
         return { error: "User already exists" };
       }
-
+      const saltRounds = 10;
+      const hashedPassword = bcrypt.hashSync(password, saltRounds);
       // Create user
       const newUser = await prisma.user.create({
         data: {
           email,
-          password, // Note: hash passwords in real apps!
+          password: hashedPassword,
         },
       });
 
@@ -36,4 +38,6 @@ export const userService = {
       throw err;
     }
   },
+
+  async userCreate() {},
 };
