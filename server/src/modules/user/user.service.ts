@@ -22,7 +22,7 @@ export const userService = {
       if (existingUser) {
         return { error: "User already exists" };
       }
-      const saltRounds = 10;
+      const saltRounds = 11;
       const hashedPassword = bcrypt.hashSync(password, saltRounds);
       // Create user
       const newUser = await prisma.user.create({
