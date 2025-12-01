@@ -1,21 +1,44 @@
-import { redirect, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../hooks";
 import { login } from "../redux/authSlice";
 
 const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const handleLogin = () => {
-    dispatch(login({ name: "Vikas", email: "vikas@test.com" }));
+
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const form = e.currentTarget;
+
+    const email = (form.elements.namedItem("email") as HTMLInputElement).value;
+    const password = (form.elements.namedItem("password") as HTMLInputElement)
+      .value;
+
+    try {
+      const res = await axios.post("http://localhost:4000/api/users/login", {
+        email,
+        password,
+      });
+
+      console.log("Backend response:", res.data);
+
+      // Update Redux state
+      dispatch(login({ name: res.data.name, email: res.data.email }));
+
+      // Navigate after login
+      navigate("/dashboard");
+    } catch (err: any) {
+      console.error("Login error:", err.response?.data || err.message);
+      alert(err.response?.data?.error || "Login failed");
+    }
   };
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
   return (
     <div className="min-w-[600px] h-[300px] flex flex-col items-center justify-center">
       <div>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={handleLogin}>
           <div className="flex flex-col ">
             <label htmlFor="email">Email</label>
             <input
@@ -23,16 +46,19 @@ const Login = () => {
               name="email"
               id="email"
               type="email"
+              required
               placeholder="Enter Email Address"
             />
           </div>
+
           <div className="flex flex-col ">
             <label htmlFor="password">Password</label>
             <input
               name="password"
               id="password"
               type="password"
-              placeholder=" Enter Password"
+              required
+              placeholder="Enter Password"
               autoComplete="current-password"
             />
           </div>
@@ -44,12 +70,15 @@ const Login = () => {
             >
               Login
             </button>
+
             <span className="mt-1">OR</span>
+
             <button
+              type="button"
               className="h-[30px] w-[200px] cursor-pointer rounded-3xl text-white mt-1 bg-blue-600"
               onClick={() => navigate("/register")}
             >
-              Sign Ups
+              Sign Up
             </button>
           </div>
         </form>
