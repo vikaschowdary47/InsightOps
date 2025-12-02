@@ -4,7 +4,6 @@ import { useAppDispatch } from "../hooks";
 import { login } from "../redux/authSlice";
 
 const Login = () => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -24,10 +23,6 @@ const Login = () => {
 
       console.log("Backend response:", res.data);
 
-      // Update Redux state
-      dispatch(login({ name: res.data.name, email: res.data.email }));
-
-      // Navigate after login
       navigate("/dashboard");
     } catch (err: any) {
       console.error("Login error:", err.response?.data || err.message);
